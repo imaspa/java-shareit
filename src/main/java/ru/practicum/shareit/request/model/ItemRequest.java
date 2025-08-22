@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item.model;
+package ru.practicum.shareit.request.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,22 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.shareit.core.model.Identifiable;
 
+import java.time.LocalDateTime;
 
 @Builder(toBuilder = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Item implements Identifiable {
+public class ItemRequest implements Identifiable {
 
     private Long id;
 
-    private String name;
-
     private String description;
 
-    private Boolean available;
+    private Long requesterId;
 
-    private Long ownerId;
-
-    private Long requestId;
+    private LocalDateTime created;
 }
