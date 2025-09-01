@@ -3,6 +3,7 @@ package ru.practicum.shareit.item;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -43,7 +44,7 @@ public class ItemService {
     @Transactional(readOnly = true)
     public List<ItemDto> find(String searchName) {
         log.info("Получить список всех вещей. Запрос {}", searchName);
-        if (searchName.trim().isEmpty()) {
+        if (StringUtils.isBlank(searchName)) {
             return Collections.emptyList();
         }
         return repository.findAvailable(searchName)
