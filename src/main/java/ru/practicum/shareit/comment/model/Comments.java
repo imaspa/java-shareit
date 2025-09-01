@@ -1,9 +1,8 @@
-package ru.practicum.shareit.booking.model;
+package ru.practicum.shareit.comment.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -13,41 +12,42 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import ru.practicum.shareit.booking.constant.BookingStatus;
-import ru.practicum.shareit.core.model.Identifiable;
+import lombok.ToString;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.Users;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "bookings")
+@Table(name = "comments")
 @Builder(toBuilder = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Booking implements Identifiable {
+public class Comments {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "start_date")
-    private LocalDateTime start;
-
-    @Column(name = "end_date")
-    private LocalDateTime end;
-
-    @ManyToOne()
-    @JoinColumn(name = "item_id", referencedColumnName = "id")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "item_id")
     private Item item;
 
-    @ManyToOne()
-    @JoinColumn(name = "booker_id", referencedColumnName = "id")
-    private Users booker;
+    @ManyToOne
+    @JoinColumn(name = "author_id")
+    @JsonIgnore
+    @ToString.Exclude
+    private Users author;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private BookingStatus status;
+    @Column(name = "created")
+    private LocalDateTime created;
+
+    @Column(name = "text")
+    private String text;
 }

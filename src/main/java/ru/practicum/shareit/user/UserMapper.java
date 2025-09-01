@@ -19,6 +19,8 @@ public interface UserMapper {
     @Mapping(target = "id", ignore = true)
     Users toEntity(UserDto dto);
 
+    Users toEntityWithId(UserDto dto);
+
     @Mapping(target = "id", expression = "java(id)")
     Users toEntity(UserDto userDto, @Context Long id);
 

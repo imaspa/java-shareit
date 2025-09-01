@@ -1,31 +1,21 @@
 package ru.practicum.shareit.item;
 
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.core.BaseRepository;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.function.Function;
 
 @Repository
-public class ItemRepository extends BaseRepository<Item> {
+public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    public <T> List<T> getAllItemOwner(Long userId, Function<Item, T> mapper) {
-        return findAll()
-                .stream()
-                .filter(i -> Objects.equals(i.getOwnerId(), userId))
-                .map(mapper)
-                .toList();
-    }
+    List<Item> findByOwner_Id(Long ownerId);
 
-    public <T> List<T> findAvailable(String searchName, Function<Item, T> mapper) {
-        return findAll()
-                .stream()
-                .filter(i -> i.getAvailable() && StringUtils.containsIgnoreCase(i.getName(), searchName))
-                .map(mapper)
-                .toList();
+    @Query("select i from Item i where (lower(i.name) like lower(concat('%', :search, '%')) " +
+            "or lower(i.description) like lower(concat('%', :search, '%')))     " +
+            "and i.available = true")
+    List<Item> findAvailable(@Param("search") String text);
 
-    }
 }
