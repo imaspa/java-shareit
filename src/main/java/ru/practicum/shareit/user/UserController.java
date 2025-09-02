@@ -14,8 +14,6 @@ import ru.practicum.shareit.core.exception.ConflictException;
 import ru.practicum.shareit.core.exception.NotFoundException;
 import ru.practicum.shareit.user.dto.UserDto;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
@@ -23,10 +21,13 @@ public class UserController {
 
     private final UserService userService;
 
+    /*
     @GetMapping
     public List<UserDto> getUsers() {
         return userService.getAll();
     }
+
+     */
 
     @GetMapping("/{userId}")
     public UserDto getEntity(@PathVariable Long userId) throws NotFoundException {
