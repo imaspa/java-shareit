@@ -34,6 +34,8 @@ public class ItemDto {
 
     private Long requestId;
 
+//    private ItemRequestDto request;
+
     private BookingLightDto lastBooking;
 
     private BookingLightDto nextBooking;

@@ -13,8 +13,9 @@ public interface ItemRequestMapper {
     @Mapping(target = "id", ignore = true)
     ItemRequest map(@MappingTarget ItemRequest entity, ItemRequestDto dto);
 
-    @Mapping(target = "id", ignore = true)
-    ItemRequest toEntity(ItemRequestDto dto);
+    ItemRequestDto map(ItemRequestDto source);
+
+    ItemRequest toEntityWithId(ItemRequestDto dto);
 
     ItemRequestDto toDto(ItemRequest entity);
 }

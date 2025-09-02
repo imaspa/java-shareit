@@ -18,6 +18,7 @@ import ru.practicum.shareit.core.exception.ConditionsException;
 import ru.practicum.shareit.core.exception.NotFoundException;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.ItemRequestService;
 import ru.practicum.shareit.user.UserService;
 import ru.practicum.shareit.user.dto.UserDto;
 
@@ -40,6 +41,7 @@ public class ItemService {
     private final BookingRepository repositoryBooking;
 
     private final UserService serviceUsers;
+    private final ItemRequestService itemRequestUsers;
 
     @Transactional(readOnly = true)
     public List<ItemDto> find(String searchName) {
@@ -101,14 +103,24 @@ public class ItemService {
     @Transactional()
     public ItemDto create(@Valid ItemDto itemDto) throws ConditionsException, NotFoundException {
         log.info("Создать запись с описанием вещи (старт). Наименование: {}", itemDto.getName());
-        var newItemDto = itemDto.toBuilder().owner(serviceUsers.getEntity(itemDto.getOwner().getId())).build();
+        var newItemDto = itemDto
+                .toBuilder()
+                .owner(serviceUsers.getEntity(itemDto.getOwner().getId()))
+                .build();
         if (itemDto.getId() != null) {
             throw new ConditionsException("При создании записи запрещена передача идентификатора");
         }
         if (!serviceUsers.userIsExist(newItemDto.getOwner().getId())) {
             throw new NotFoundException("Собственник не найден");
         }
-        var entity = repository.save(mapper.toEntityWithId(newItemDto));
+        var entity = mapper.toEntityWithId(newItemDto);
+        if (itemDto.getRequestId() != null) {
+            entity = mapper.toEntityWithId(newItemDto)
+                    .toBuilder()
+                    .request(itemRequestUsers.findById(itemDto.getRequestId()))
+                    .build();
+        }
+        entity = repository.save(entity);
         log.info("Создать запись с описанием вещи (стоп). Наименование: {}; id: {}", entity.getName(), entity.getId());
         return mapper.toDto(entity);
     }

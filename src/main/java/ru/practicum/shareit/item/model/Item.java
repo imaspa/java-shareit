@@ -21,6 +21,7 @@ import org.hibernate.annotations.BatchSize;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.comment.model.Comments;
 import ru.practicum.shareit.core.model.Identifiable;
+import ru.practicum.shareit.request.model.ItemRequest;
 import ru.practicum.shareit.user.model.Users;
 
 import java.util.ArrayList;
@@ -51,8 +52,11 @@ public class Item implements Identifiable {
     @JoinColumn(name = "owner_id")
     private Users owner;
 
-    @Column(name = "request_id")
-    private Long requestId;
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne
+    @JoinColumn(name = "request_id")
+    private ItemRequest request;
 
     @BatchSize(size = 50)
     @EqualsAndHashCode.Exclude
