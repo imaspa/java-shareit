@@ -1,7 +1,6 @@
 package ru.practicum.shareit.request.dto;
 
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +19,6 @@ public class ItemRequestDto {
 
     private Long id;
 
-    @NotBlank(message = "параметр: `Имя` обязателен к заполнению")
     private String description;
 
     private UserDto requestor;

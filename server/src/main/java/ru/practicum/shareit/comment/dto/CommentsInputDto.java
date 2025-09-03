@@ -1,6 +1,5 @@
 package ru.practicum.shareit.comment.dto;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +15,6 @@ public class CommentsInputDto {
 
     private Long authorId;
 
-    @NotBlank(message = "параметр: `Комментарий` обязателен к заполнению")
     private String text;
 
 }

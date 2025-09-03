@@ -46,23 +46,6 @@ class BookingControllerTest {
                 .andExpect(status().isOk());
     }
 
-/*    @Test
-    void create_ShouldReturnOk() throws Exception {
-        String json = "{\n" +
-                "  \"itemId\": 1,\n" +
-                "  \"start\": \"2025-08-01T12:00:00\",\n" +
-                "  \"end\": \"2025-08-02T12:00:00\"\n" +
-                "}";
-
-        when(bookingClient.create(anyLong(), any())).thenReturn(ResponseEntity.ok().build());
-
-        mockMvc.perform(post("/bookings")
-                        .header(HEADER, 1)
-                        .contentType("application/json")
-                        .content(json))
-                .andExpect(status().isOk());
-    }*/
-
     @Test
     void getBooking_ShouldReturnOk() throws Exception {
         when(bookingClient.getEntity(anyLong(), anyLong())).thenReturn(ResponseEntity.ok().build());
